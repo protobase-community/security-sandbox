@@ -7,23 +7,24 @@ not even from this source code. Read one, change any data, or get in at all, and
 
 - **The source is public.** Study it: everything the app does is in this repository and in Protobase's.
 - **Nobody has an account for you.** Sign-up is closed and we hand out no test accounts: you start signed out.
-- **It is not a demo and never resets.** What you change stays changed.
+- **It is not a demo and never resets.** What you change stays changed. Only a new secret reseeds it, and then the
+  date and commitments under Status change with it.
 - **There are no planted bugs.** The point is to test the real product.
 
 ## Status
 
-Not live yet. When it is, this section gives its address, the day it was seeded, and the SHA-256 commitments of the
-levels below.
+Live at [security-sandbox-htfjsd.protobase.net](https://security-sandbox-htfjsd.protobase.net), seeded on 2026-10-27.
+These are the SHA-256 commitments of the levels below:
 
 | Level | Canary | SHA-256 |
 | --- | --- | --- |
-| 1 | inbox token of organization 1 | not published yet |
-| 2 | internal number of tenant 1 | not published yet |
-| 3 | key safe code of property 1 | not published yet |
-| 4 | API key of organization 1 | not published yet |
-| 5 | webhook secret of organization 1 | not published yet |
-| 6 | fingerprint of all data (`db:fingerprint`, total) | not published yet |
-| 7 | the secret | not published yet |
+| 1 | inbox token of organization 1 | `bf570daf798cd390ee6665ce49947279096c9a34054b448883ac027375d5ebbe` |
+| 2 | internal number of tenant 1 | `54be9d7faafed9c7c006daa8b507a33b207d2cea4f2ed8d213dd50e9026c6d94` |
+| 3 | key safe code of property 1 | `5fb6e2541c13ef5dda95c4b986f27ca850d4ab7b5a8dcebbc97acc63b0e4dbd8` |
+| 4 | API key of organization 1 | `5a202406381171b330c5260970e1045c1c1eff884d0afb03160c6caa80130cf1` |
+| 5 | webhook secret of organization 1 | `ce1882b469299f571d7ab7c617dcb7c38c7ac01c18c296476eb5cae65dcb837b` |
+| 6 | fingerprint of all data (`db:fingerprint`, total) | `4e21d7077eaa97777575b02c6a66c8640029d4d4332af029b7b2d1e6effcd35a` |
+| 7 | the secret | `b3bb2ffdfba2759b9830b5a4c7c51e5c70b2159851494fa207cf997374dcad13` |
 
 ## Levels
 

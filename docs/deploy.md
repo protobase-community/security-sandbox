@@ -1,7 +1,7 @@
 # Deploy and seed the live sandbox
 
 For the operator. The secret stays on your own machine and offline: it is never in the repository, the app's
-environment or its database. Seed once; the sandbox never resets.
+environment or its database. Seed once; the sandbox resets only when you regenerate the secret (step 5).
 
 ## 1. Create the app
 
@@ -35,7 +35,8 @@ DATABASE_URL='<connection string>' bun run db:fingerprint
 The seed prints the commitments of levels 1 to 5 and 7, and `db:fingerprint` the hash of every table and their total,
 level 6's commitment. Keep the whole fingerprint output with the secret.
 
-Never run `db:seed` against the live database again: it empties the tables first.
+Never run `db:seed` against the live database again, except to regenerate the secret (step 5): it empties the tables
+first.
 
 ## 4. Publish
 
@@ -44,6 +45,17 @@ fingerprint. Commit and push.
 
 Create no accounts in the app, for yourself either: an account is something to attack, and signing in adds a row to
 `core.users` (`db/migrations/013_auth_users.sql`). Look at the data with read-only queries on the database instead.
+
+## 5. Regenerate the secret
+
+When the secret may have leaked, or to start a fresh round, replace it and everything made from it:
+
+1. Make a new secret (step 2) and keep it in place of the old one; the old one rebuilds nothing live any more.
+2. Seed with it (step 3). This empties the app's tables, so any change a finding made is gone: check open reports
+   against the old fingerprint first.
+3. Publish (step 4): the new day, commitments and fingerprint replace the old ones in the README's Status section.
+
+Accounts are not part of the seed: `auth` keeps what it had, which is nothing as long as nobody made one.
 
 ## Check a claim
 
