@@ -1,6 +1,7 @@
 import { resolveAccess } from '@protobase/schema'
 import { describe, expect, it } from 'vitest'
-import { arrears, leases, payments, tenants, tickets } from './index'
+import { accessCodes, arrears, integrations, leases, organizations, payments, tenants, tickets, vendors } from './index'
+import { roles } from './roles'
 
 const as = (role: string) => ({ user: { id: 6, roles: [role] } })
 
@@ -45,5 +46,26 @@ describe('real estate roles', () => {
     expect(access.readableFields).toContain('phone')
     expect(access.readableFields.includes('monthly_income')).toBe(visible)
     expect(access.readableFields.includes('iban')).toBe(visible)
+    expect(access.readableFields.includes('internal_number')).toBe(visible)
+  })
+
+  it.each([
+    ['admin', true], ['manager', true], ['finance', false], ['maintenance', false],
+  ] as const)('lets %s read access codes: %s', async (role, visible) => {
+    const access = await resolveAccess(accessCodes, as(role))
+    expect(access.operations.read).toBe(visible)
+  })
+
+  it.each(['manager', 'finance', 'maintenance'])('keeps the integrations from %s', async (role) => {
+    expect((await resolveAccess(integrations, as(role))).operations.read).toBe(false)
+    expect((await resolveAccess(integrations, as('admin'))).operations.read).toBe(true)
+  })
+
+  it("shows anyone signed out only the organizations' names and cities", async () => {
+    const anonymous = as('anonymous')
+    const access = await resolveAccess(organizations, anonymous)
+    expect(access.operations).toEqual({ list: true, read: true, create: false, update: false, delete: false })
+    expect(roles.fields(anonymous.user, 'organizations.read')).toEqual(['id', 'name', 'city'])
+    for (const resource of [tenants, vendors, accessCodes, integrations]) expect((await resolveAccess(resource, anonymous)).operations.read).toBe(false)
   })
 })

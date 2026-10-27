@@ -2,6 +2,7 @@ import { coSigned, propertyAcquiredAt, propertyShapeAt, tenanciesOf } from './bu
 import { timestamps } from './calendar'
 import { slugify } from './format'
 import { orgSpecs } from './data/reference'
+import { worldSeed, type Secret } from './sandbox'
 import { scales, type ScaleName } from './scales'
 
 // Splits a scale total over the organizations by share; the last one takes the remainder.
@@ -15,13 +16,15 @@ const splitTotal = (total: number) => {
 
 // Every table's ids are allocated here, so builders can compute foreign keys without lookups. Tables whose rows are
 // only ever referenced from inside one step (charges, payments, work orders, inspections, valuations) number their
-// rows as the step streams them.
-export const buildWorld = (name: ScaleName) => {
+// rows as the step streams them. Each organization's generator is seeded from the sandbox secret, which the protected
+// values come from too (sandbox.ts).
+export const buildWorld = (name: ScaleName, secret: Secret) => {
   const scale = scales[name]
   const properties = splitTotal(scale.properties)
   const next = { user: 1, owner: 1, property: 1, unit: 1, lease: 1, tenant: 1, vendor: 1, ticket: 1 }
 
-  const orgs = orgSpecs.map((spec, index) => {
+  const orgs = orgSpecs.map((base, index) => {
+    const spec = { ...base, seed: worldSeed(secret, base.slug) }
     const propertyCount = properties[index]!
     const unitStarts = new Uint32Array(propertyCount + 1)
     for (let ordinal = 0; ordinal < propertyCount; ordinal++) unitStarts[ordinal + 1] = unitStarts[ordinal]! + propertyShapeAt(spec.seed, ordinal).units
@@ -90,7 +93,7 @@ export const buildWorld = (name: ScaleName) => {
     return org
   })
 
-  return { name, orgs }
+  return { name, orgs, secret }
 }
 
 export type World = ReturnType<typeof buildWorld>

@@ -75,7 +75,6 @@ export const orgSpecs = [
     city: 'London',
     registration: '14832657',
     share: 0.7,
-    seed: 301,
     cities: org1Cities,
     users: [
       ['Amara', 'O.', 'admin'], ['Kenji', 'S.', 'manager'], ['Léa', 'M.', 'manager'], ['Rahul', 'K.', 'finance'],
@@ -89,7 +88,6 @@ export const orgSpecs = [
     city: 'Ciudad de México',
     registration: 'PHG190312KD4',
     share: 0.3,
-    seed: 402,
     cities: org2Cities,
     users: [
       ['Valentina', 'G.', 'admin'], ['Chinedu', 'E.', 'manager'], ['Wanjiru', 'K.', 'finance'], ['Liam', 'T.', 'maintenance'], ['Mai', 'N.', 'maintenance'],

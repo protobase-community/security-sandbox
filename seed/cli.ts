@@ -5,7 +5,9 @@ import { seedLeasing } from './steps/leasing'
 import { seedMaintenance } from './steps/maintenance'
 import { seedPortfolio } from './steps/portfolio'
 import { seedReference } from './steps/reference'
+import { seedSandbox } from './steps/sandbox'
 import { analyzeAll, createIndexes, dropIndexes, resetSequences, setTriggers, truncateAll } from './maintenance'
+import { commitments, readSecret } from './sandbox'
 import { buildWorld } from './world'
 
 const flag = process.argv.indexOf('--scale')
@@ -19,7 +21,9 @@ const step = async (name: string, run: () => Promise<unknown>) => {
   console.log(`${name} (${((performance.now() - before) / 1000).toFixed(1)}s)`)
 }
 
-const world = buildWorld(scale)
+// The sandbox secret is read from the environment only for this run, and never written anywhere (seed/sandbox.ts).
+const { secret, generated } = readSecret(process.env.SANDBOX_SECRET)
+const world = buildWorld(scale, secret)
 
 // One connection for the load, with foreign keys, check and exclusion constraints on: an app's own role may not skip
 // them (session_replication_role), only switch its triggers off, so the seed writes `paid_amount` itself. Postgres
@@ -35,6 +39,7 @@ try {
   await step('leasing', () => seedLeasing(loader, world))
   await step('billing', () => seedBilling(loader, world))
   await step('maintenance', () => seedMaintenance(loader, world))
+  await step('sandbox', () => seedSandbox(loader, world))
 } finally {
   await setTriggers(loader, true)
 }
@@ -48,3 +53,10 @@ await step('analyze', () => analyzeAll(sql))
 await sql.end()
 
 console.log(`seeded ${scale} in ${((performance.now() - started) / 1000).toFixed(1)}s`)
+
+console.log('\ncommitments (SHA-256), for the README:')
+for (const [level, value, hash] of commitments(secret)) console.log(`  level ${level}  ${hash}  ${value}`)
+if (generated) {
+  console.log(`\nSANDBOX_SECRET=${secret.toString('hex')}`)
+  console.log('A new secret, shown only now: keep it offline. The same secret rebuilds this exact data set.')
+}

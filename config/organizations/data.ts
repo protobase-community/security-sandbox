@@ -1,7 +1,10 @@
 import { f, resource } from '@protobase/schema'
 import { access } from '../roles'
 
-/** core.organizations. Unique: (slug) */
+/**
+ * core.organizations. Unique: (slug). Anyone, signed in or not, reads their names and cities; the invoice inbox token
+ * next to them in the table is not a field here (level 1 in the README).
+ */
 export const organizations = resource('organizations')
   .table('core.organizations')
   .fields({

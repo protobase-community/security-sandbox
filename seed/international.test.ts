@@ -17,7 +17,7 @@ const refused = (resource: Checked, record: Record<string, unknown>) => {
   return Object.entries(record).filter(([field, value]) => !shape[field]!.safeParse(value).success).map(([field, value]) => `${field}: ${String(value)}`)
 }
 
-const world = buildWorld('small')
+const world = buildWorld('small', Buffer.alloc(32, 7))
 const all = world.orgs.map((org) => {
   const leases = [...leasesOf(org)]
   return {

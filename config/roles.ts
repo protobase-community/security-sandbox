@@ -4,13 +4,15 @@ import { defineRoles } from '@protobase/schema'
 export type RealEstateName =
   | 'organizations' | 'users' | 'amenities' | 'owners' | 'properties' | 'units' | 'unit_amenities' | 'valuations'
   | 'tenants' | 'leases' | 'lease_tenants' | 'deposits' | 'rent_charges' | 'payments' | 'arrears'
-  | 'vendors' | 'tickets' | 'work_orders' | 'inspections'
+  | 'vendors' | 'tickets' | 'work_orders' | 'inspections' | 'access_codes' | 'integrations'
   | 'screening'
 
 /**
  * Capabilities are `<resource|area>.<action>[.own]`. Property managers run the portfolio and the leases, finance the
  * money, maintenance the tickets; `.own` tickets are those assigned to the user. The `screening` area gates a tenant's
- * income and IBAN, which maintenance staff, who call tenants to plan a visit, do not see.
+ * income and IBAN, which maintenance staff, who call tenants to plan a visit, do not see. Managers let people into
+ * properties, so they reveal its access codes. `anonymous` is anyone not signed in: they see
+ * the organizations' names and cities.
  */
 export const roles = defineRoles<RealEstateName>({
   admin: ['*'],
@@ -22,7 +24,7 @@ export const roles = defineRoles<RealEstateName>({
     'leases.read', 'leases.create', 'leases.update', 'lease_tenants.*', 'deposits.read',
     'rent_charges.read', 'payments.read', 'arrears.read',
     'tickets.read', 'tickets.create', 'tickets.update', 'work_orders.read', 'vendors.read', 'inspections.*',
-    'organizations.read', 'users.read',
+    'organizations.read', 'users.read', 'access_codes.read',
   ],
   finance: [
     'rent_charges.*', 'payments.*', 'arrears.read', 'deposits.*', 'valuations.*',
@@ -34,6 +36,7 @@ export const roles = defineRoles<RealEstateName>({
     'tickets.read', 'tickets.create', 'tickets.update.own', 'work_orders.*', 'inspections.*', 'vendors.*',
     'properties.read', 'units.read', 'amenities.read', 'unit_amenities.read', 'tenants.read', 'users.read',
   ],
+  anonymous: [{ 'organizations.read': ['id', 'name', 'city'] }],
 })
 
 /** The standard rule set for a resource: every operation needs the matching capability. */

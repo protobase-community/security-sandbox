@@ -12,11 +12,11 @@ describe('real estate pages', () => {
     expect(() => checkPages(pages.map((entry) => entry.toModel()), { models, actions })).not.toThrow()
   })
 
-  it('has a list and record view for every table', () => {
+  it('has a list and record view for every table but the integrations, which only the API and MCP give', () => {
     const { resources, views } = configExports(config)
     const viewed = new Set(views.map((view) => view.toModel().resource))
-    expect(resources.map((source) => source.toModel().name).filter((name) => !viewed.has(name))).toEqual([])
-    expect(resources).toHaveLength(19)
+    expect(resources.map((source) => source.toModel().name).filter((name) => !viewed.has(name))).toEqual(['integrations'])
+    expect(resources).toHaveLength(21)
   })
 
   it('lists a lease\'s rent charges on its page, newest period first, a year of them', () => {
