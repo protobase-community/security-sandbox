@@ -1,12 +1,12 @@
 {
-  "name": "property-management",
+  "name": "security-sandbox",
   "version": "0.0.0",
-  "description": "A property management back office built with Protobase: owners, properties, leases, rent and maintenance",
+  "description": "A Protobase property management back office seeded from an offline secret, for security researchers to break into",
   "private": true,
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/protobase-community/property-management.git"
+    "url": "git+https://github.com/protobase-community/security-sandbox.git"
   },
   "type": "module",
   "engines": {

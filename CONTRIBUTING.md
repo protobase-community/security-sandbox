@@ -7,12 +7,13 @@ Everyone is welcome here: bug reports, questions, fixes and new features alike. 
 ## Reporting a problem
 
 Open an issue with what you did, what you expected and what happened instead. A problem in Protobase itself, rather
-than in this app, belongs in [Protobase's issues](https://github.com/PrototeamHQ/protobase/issues).
+than in this app, belongs in [Protobase's issues](https://github.com/PrototeamHQ/protobase/issues). A security finding
+does not go in an issue: email it to contact@protobase.net, as the [README](README.md#report-a-finding) says.
 
 ## Making a change
 
 1. Fork the repository and create a branch.
-2. Set it up as the [README](README.md#setup) says:
+2. Set it up as the [README](README.md#run-it-locally) says:
 
    ```sh
    bun install
