@@ -7,6 +7,8 @@ import { roles } from './roles'
 // The app's admin API built with Protobase's public API from its own config folder and roles, with the sign-in its
 // protobase.config.ts describes, as `dev` and `serve` build it, so a startup check such as an owner field that must
 // hold the user ids refuses here instead of on the app's first start. Building the API reaches no database.
+const noRequests = () => { throw new Error('No requests in this test') }
+
 describe('the app', () => {
   beforeAll(() => {
     vi.stubEnv('PROTOBASE_SECRET', 'a-secret-only-this-test-uses-0123456789')
@@ -30,7 +32,8 @@ describe('the app', () => {
         bottomBars,
         subscriptions,
         db: {} as never,
-        authenticate: () => { throw new Error('No requests in this test') },
+        // With MCP on, the authenticator also verifies the MCP endpoint's tokens (`forAudience`).
+        authenticate: Object.assign(noRequests, { forAudience: () => noRequests }),
         auth,
         options: { roles },
       }),
