@@ -18,6 +18,7 @@
     "db:migrate": "protobase run db/migrate.ts",
     "db:seed:base": "protobase run seed/base.ts",
     "db:seed": "protobase run seed/cli.ts",
+    "db:fingerprint": "protobase run db/fingerprint.ts",
     "db:reset": "protobase run db/drop.ts && protobase run db/migrate.ts && protobase run seed/cli.ts --scale small",
     "typecheck": "protobase types && tsc --noEmit",
     "test": "protobase types && vitest run",

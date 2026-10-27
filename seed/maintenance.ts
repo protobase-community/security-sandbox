@@ -1,6 +1,7 @@
 import type { Db } from '../db/connection'
 
-const schemas = ['core', 'portfolio', 'leasing', 'billing', 'maintenance']
+/** The app's own schemas: what the seed writes and the fingerprint covers. */
+export const schemas = ['core', 'portfolio', 'leasing', 'billing', 'maintenance']
 
 export const truncateAll = async (sql: Db) => {
   const tables = await sql`
