@@ -18,41 +18,41 @@ export const portfolioOverview = page(
       <RecordCard
         title="Longest in arrears"
         resource="arrears"
-        sort="oldest_due_on"
+        sort={['oldest_due_on']}
         empty="Every tenant is paid up."
         actions={<Action name="remind" label="Send reminder" variant="primary" />}
       >
         <Grid columns={2}>
-          <Field name="lease_id" label="Lease" />
-          <Field name="balance" label="Outstanding" />
-          <Field name="open_charges" label="Open months" />
-          <Field name="oldest_due_on" label="Oldest due" />
+          <Field source="lease_id" label="Lease" />
+          <Field source="balance" label="Outstanding" />
+          <Field source="open_charges" label="Open months" />
+          <Field source="oldest_due_on" label="Oldest due" />
         </Grid>
         <Grid columns={2}>
-          <Field name="lease_id.unit_id" label="Unit" />
-          <Field name="currency" />
+          <Field source="lease_id.unit_id" label="Unit" />
+          <Field source="currency" />
         </Grid>
       </RecordCard>
       <RecordCard
         title="Oldest urgent ticket"
         resource="tickets"
         filter="priority = 'urgent' AND (status = 'reported' OR status = 'scheduled')"
-        sort="reported_at"
+        sort={['reported_at']}
         empty="No urgent tickets are open."
         actions={<Action name="complete" variant="primary" />}
       >
         <Grid columns={2}>
-          <Field name="number" />
-          <Field name="status" />
-          <Field name="property_id" label="Property" />
-          <Field name="reported_at" label="Reported" />
+          <Field source="number" />
+          <Field source="status" />
+          <Field source="property_id" label="Property" />
+          <Field source="reported_at" label="Reported" />
         </Grid>
-        <Field name="title" />
+        <Field source="title" />
       </RecordCard>
     </Grid>
     <Grid columns={2}>
-      <Table title="Arrears" resource="arrears" sort="oldest_due_on" columns={['lease_id', 'balance', 'currency', 'open_charges', 'oldest_due_on']} limit={5} empty="Every tenant is paid up." />
-      <Table title="Open tickets" resource="tickets" filter="status = 'reported' OR status = 'scheduled'" sort="reported_at desc" columns={['number', 'title', 'priority', 'status']} limit={5} empty="Nothing is open." />
+      <Table title="Arrears" resource="arrears" sort={['oldest_due_on']} columns={['lease_id', 'balance', 'currency', 'open_charges', 'oldest_due_on']} limit={5} empty="Every tenant is paid up." />
+      <Table title="Open tickets" resource="tickets" filter="status = 'reported' OR status = 'scheduled'" sort={['reported_at desc']} columns={['number', 'title', 'priority', 'status']} limit={5} empty="Nothing is open." />
     </Grid>
     <Table title="Vacant units" resource="units" filter="status = 'vacant'" columns={['label', 'property_id', 'bedrooms', 'base_rent', 'currency']} limit={5} empty="Every unit is let." />
   </Page>,
