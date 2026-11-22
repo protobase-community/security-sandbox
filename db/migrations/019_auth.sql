@@ -1,0 +1,6 @@
+-- protobase:id 93826e9d-6025-4fb1-b958-4f7558610f6b
+-- protobase:version 0.123.0
+-- protobase:steps auth=5 two_factor=1 passkeys=2 sign_in_policy=1 staff_sign_in=2 organizations=2 mcp=1 personal_access_tokens=1 mail_senders=2 platform_devices=1
+-- protobase:model 9cc411a76001a0b1f8448abc75b116798c3a85bdda9d45c9eb17ea63c1696a96
+-- The auth schema changes this version of Protobase needs, written by `protobase auth migration`: none, the store has every step of this version already.
+-- It starts protobase.snapshot.json from the project's earlier migrations.
